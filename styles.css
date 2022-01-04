@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
+*::after,
+::before {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  position: relative;
+  font-family: "Open Sans", sans-serif;
+}
+
+.button-group {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-box-direction: reverse !important;
+      -ms-flex-direction: column-reverse !important;
+          flex-direction: column-reverse !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.button-group button {
+  margin-bottom: 0.2rem !important;
+  border-radius: 8px !important;
+}
+
+.button-group button:hover {
+  color: #0c57fb !important;
+}
+
+.map-main .locations-results {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 111;
+  background: #fff;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  min-width: 125px;
+}
+
+.map-main .locations-results h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.map-main .locations-results ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.map-main .locations-results ul li {
+  font-size: 14px;
+}
+
+.map-main .locations-results ul li:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+
+.map-main .operation-btn {
+  position: absolute;
+  z-index: 1111;
+  bottom: 2rem;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background: #fff;
+  border-radius: 4px;
+  padding: 10px 14px;
+  color: #232329;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: 0;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.map-main .operation-btn:hover {
+  background: #f0f0f0;
+}
+
+.map-main .operation-btn img {
+  margin-right: 0.5rem;
+}
+
+.map-main .smap img[src*="//mapserver.mapy.cz/"] {
+  -webkit-filter: grayscale(80%);
+          filter: grayscale(80%);
+}
+
+.map-main .smap .hud img {
+  -webkit-filter: grayscale(0) !important;
+          filter: grayscale(0) !important;
+}
+/*# sourceMappingURL=styles.css.map */
