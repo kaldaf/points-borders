@@ -107,7 +107,16 @@ Vue.component(('map-main'), {
     methods: {
         handleDraw: function () {
             //this.draw = !this.draw;
-            window.location.reload();
+            //window.location.reload();
+            this.includedLocations = [];
+            this.selectedCoords = [];
+            this.map = null;
+            this.geoLayer = new SMap.Layer.Geometry();
+            this.hintLayer = new SMap.Layer.Geometry();
+            this.signals = null;
+            this.markerLayer = new SMap.Layer.Marker();
+            this.initMap();
+
         },
         initMap: function () {
             this.map = new SMap(document.querySelector("#map"), this.center, 14);
@@ -217,12 +226,12 @@ Vue.component(('map-main'), {
                 this.hintLayer.removeAll();
                 this.hintLayer.redraw();
 
-                if(1 >= this.selectedCoords.length){
+                if (1 >= this.selectedCoords.length) {
                     const lastPoints = [this.selectedCoords[this.selectedCoords.length - 1], tmpData]
                     const hintPolygonLast = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, lastPoints, this.polyOptions);
                     this.hintLayer.addGeometry(hintPolygonLast);
                 }
-              
+
 
                 if (this.selectedCoords.length >= 2) {
                     const lastPoints = [this.selectedCoords[this.selectedCoords.length - 1], tmpData]
