@@ -187,7 +187,6 @@ Vue.component(('map-main'), {
             this.selectedCoords.push(SMap.Coords.fromWGS84(geo.coords.x, geo.coords.y));
             this.includedLocations = [];
 
-
             this.geoLayer.clear();
             this.geoLayer.removeAll();
 
@@ -218,9 +217,22 @@ Vue.component(('map-main'), {
                 this.hintLayer.removeAll();
                 this.hintLayer.redraw();
 
-                const lastPoints = [this.selectedCoords[this.selectedCoords.length - 1], tmpData]
-                const hintPolygon = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, lastPoints, this.polyOptions);
-                this.hintLayer.addGeometry(hintPolygon);
+                if(1 >= this.selectedCoords.length){
+                    const lastPoints = [this.selectedCoords[this.selectedCoords.length - 1], tmpData]
+                    const hintPolygonLast = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, lastPoints, this.polyOptions);
+                    this.hintLayer.addGeometry(hintPolygonLast);
+                }
+              
+
+                if (this.selectedCoords.length >= 2) {
+                    const lastPoints = [this.selectedCoords[this.selectedCoords.length - 1], tmpData]
+                    const hintPolygonLast = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, lastPoints, this.polyOptions);
+                    this.hintLayer.addGeometry(hintPolygonLast);
+
+                    const fisrtPoints = [this.selectedCoords[0], tmpData]
+                    const hintPolygonFirst = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, fisrtPoints, this.polyOptions);
+                    this.hintLayer.addGeometry(hintPolygonFirst);
+                }
             });
         }
     },
