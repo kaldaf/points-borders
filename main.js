@@ -12,6 +12,7 @@ Vue.component(('map-main'), {
                 <li v-for="location in includedLocations">{{location}}</li>
             </ul>
         </div>
+        <div class="snackbar" :class="{'show-message': showMessage}">{{message}}</div>
     </div>
     `,
 
@@ -101,13 +102,17 @@ Vue.component(('map-main'), {
                 outlineColor: "#0c57fb"
             },
             includedLocations: [],
-            zoomOnCoords: true
+            zoomOnCoords: true,
+            canBeAdded: true,
+            message: "",
+            showMessage: false,
         }
     },
     methods: {
         handleDraw: function () {
             //this.draw = !this.draw;
             //window.location.reload();
+            document.querySelector("#map").innerHTML = "";
             this.includedLocations = [];
             this.selectedCoords = [];
             this.map = null;
@@ -116,7 +121,7 @@ Vue.component(('map-main'), {
             this.signals = null;
             this.markerLayer = new SMap.Layer.Marker();
             this.initMap();
-
+            this.canBeAdded = true;
         },
         initMap: function () {
             this.map = new SMap(document.querySelector("#map"), this.center, 14);
@@ -193,19 +198,28 @@ Vue.component(('map-main'), {
         },
         results: function (geocoder) {
             const geo = geocoder.getResults();
-            this.selectedCoords.push(SMap.Coords.fromWGS84(geo.coords.x, geo.coords.y));
-            this.includedLocations = [];
+            if (this.canBeAdded) {
+                this.selectedCoords.push(SMap.Coords.fromWGS84(geo.coords.x, geo.coords.y));
+                this.includedLocations = [];
 
-            this.geoLayer.clear();
-            this.geoLayer.removeAll();
+                this.geoLayer.clear();
+                this.geoLayer.removeAll();
 
-            /*CREATE POLYGON*/
-            const polygon = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, this.selectedCoords, this.polyOptions);
-            this.geoLayer.addGeometry(polygon);
+                /*CREATE POLYGON*/
+                const polygon = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, this.selectedCoords, this.polyOptions);
+                this.geoLayer.addGeometry(polygon);
+                if (this.showMessage == false) {
+                    this.messageHandle("Bod úspěšně přidán. 😇")
+                }
+            } else {
+                if (this.showMessage == false) {
+                    this.messageHandle("Do této oblasti nelze přidat body!")
+                }
+            }
 
             this.pathHint();
 
-            if (this.selectedCoords.length > 2) {
+            if (this.selectedCoords.length > 2 && this.canBeAdded) {
                 this.locations.forEach((e) => {
                     const editedPoints = SMap.Coords.fromWGS84(e.points.lon, e.points.lat);
                     if (SMap.Util.pointInPolygon([editedPoints.x, editedPoints.y], this.selectedCoords.map(Object
@@ -226,14 +240,22 @@ Vue.component(('map-main'), {
                 this.hintLayer.removeAll();
                 this.hintLayer.redraw();
 
-                if (1 >= this.selectedCoords.length) {
+
+                if (this.selectedCoords.length == 1 || this.selectedCoords.length == 1) {
                     const lastPoints = [this.selectedCoords[this.selectedCoords.length - 1], tmpData]
                     const hintPolygonLast = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, lastPoints, this.polyOptions);
                     this.hintLayer.addGeometry(hintPolygonLast);
                 }
 
 
-                if (this.selectedCoords.length >= 2) {
+                if (this.selectedCoords.length >= 3) {
+                    const editedPoints = SMap.Coords.fromWGS84(tmpData.x, tmpData.y);
+
+                    SMap.Util.pointInPolygon([editedPoints.x, editedPoints.y], this.selectedCoords.map(Object
+                        .values)) ? this.canBeAdded = false : this.canBeAdded = true;
+                }
+
+                if (this.selectedCoords.length >= 2 && this.canBeAdded) {
                     const lastPoints = [this.selectedCoords[this.selectedCoords.length - 1], tmpData]
                     const hintPolygonLast = new SMap.Geometry(SMap.GEOMETRY_POLYGON, null, lastPoints, this.polyOptions);
                     this.hintLayer.addGeometry(hintPolygonLast);
@@ -243,6 +265,14 @@ Vue.component(('map-main'), {
                     this.hintLayer.addGeometry(hintPolygonFirst);
                 }
             });
+        },
+        messageHandle: function (msg) {
+            this.message = msg;
+            this.showMessage = true;
+            setTimeout(() => {
+                this.showMessage = false;
+                this.message = "";
+            }, 3000);
         }
     },
     mounted() {
