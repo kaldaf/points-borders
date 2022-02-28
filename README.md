@@ -7,11 +7,11 @@ Filtrování bodů ve vyznačené oblasti
  - [x] Klikání polygonu a hledání bodu v něm
 
 ## Plánované
-- [ ] Vytvoření manuálního kreslení a překreslit ho do polygonu
+- [ ] Manuální kreslení do mapy a jeho následný převod do polygonu
 
 
 ## Ukázka
-<img src="https://raw.githubusercontent.com/kaldaf/stahni-webinarjam/main/images/example1.png" alt="Příklad stáhnutí webináře." height="300">
+<img src="https://raw.githubusercontent.com/kaldaf/points-borders/main/images/example1.jpg" alt="Ukázka mapy" height="500">
 
 ## Copyright
 Používáme nějaké third-party scripty pro naše rozšíření. Autoři a licence v listu níže.
