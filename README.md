@@ -20,4 +20,4 @@ Používáme nějaké third-party scripty. Autoři a licence v listu níže.
 That's all.
 
 
---- [blog](https://blog.filipkalousek.cz)
+--- [blog](https://blog.filipkalousek.cz/mapycz/api-mapy-02)
